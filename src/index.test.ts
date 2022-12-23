@@ -1,4 +1,5 @@
-import {binaryOp, curry, demethodize, flip, formatLocalCurrency, formatLocalNumber, getProp, map, sum} from './index'
+import { curry, demethodize, flip } from './HOF';
+import {binaryOp, formatLocalCurrency, formatLocalNumber, getProp, map, sum} from './utils'
 
 let languageGetter;
 beforeEach(() => {
