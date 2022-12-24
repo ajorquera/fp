@@ -75,8 +75,8 @@ const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
 const toLocaleStringNumb = curry((lang, options, x) => x.toLocaleString(lang, options));
 const formatLocalNumber = toLocaleStringNumb(navigator.language, {});
-const formatPercentage = toLocaleStringNumb(navigator.language, { style: "percent" });
+const formatLocalPercentage = toLocaleStringNumb(navigator.language, { style: "percent" });
 const formatLocalCurrency = curry((currency, numb) => toLocaleStringNumb(navigator.language, { style: "currency", currency }, numb));
 
-export { args, avg, binaryOp, cloneSpread, cloneStringify, compose, curry, curryE, curryN, curryNE, demethodize, divide, equal, every, flip, formatLocalCurrency, formatLocalNumber, formatPercentage, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, logger, map, memoize, multiply, negate, not, pipe, reduce, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf };
+export { args, avg, binaryOp, cloneSpread, cloneStringify, compose, curry, curryE, curryN, curryNE, demethodize, divide, equal, every, flip, formatLocalCurrency, formatLocalNumber, formatLocalPercentage, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, logger, map, memoize, multiply, negate, not, pipe, reduce, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf };
 //# sourceMappingURL=fp.mjs.map

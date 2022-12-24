@@ -77,7 +77,7 @@ const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
 const toLocaleStringNumb = curry((lang, options, x) => x.toLocaleString(lang, options));
 const formatLocalNumber = toLocaleStringNumb(navigator.language, {});
-const formatPercentage = toLocaleStringNumb(navigator.language, { style: "percent" });
+const formatLocalPercentage = toLocaleStringNumb(navigator.language, { style: "percent" });
 const formatLocalCurrency = curry((currency, numb) => toLocaleStringNumb(navigator.language, { style: "currency", currency }, numb));
 
 exports.args = args;
@@ -97,7 +97,7 @@ exports.every = every;
 exports.flip = flip;
 exports.formatLocalCurrency = formatLocalCurrency;
 exports.formatLocalNumber = formatLocalNumber;
-exports.formatPercentage = formatPercentage;
+exports.formatLocalPercentage = formatLocalPercentage;
 exports.getProp = getProp;
 exports.identity = identity;
 exports.ifElse = ifElse;
