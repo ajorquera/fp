@@ -1,2 +1,2 @@
-export * from './HOF';
-export * from './utils';
+export * from './HOF/HOF';
+export * from './utils/utils';

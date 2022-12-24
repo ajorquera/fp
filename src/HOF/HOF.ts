@@ -6,6 +6,8 @@ export const demethodize = (fn: Fn) => (arg0, ...args) => fn.apply(arg0, args);
 export const args = (fn: Fn) => (...args) => fn(args);
 export const flip = (fn: Fn) => (...args) => fn(...args.reverse())
 export const not = (fn: Fn) => (...args) => !fn(...args);
+export const negate = (fn: Fn) => (...args) => -fn(...args);
+
 export const timer = (fn: Fn) => (...args) => {
   const start = Date.now();
   const result = fn(...args);
