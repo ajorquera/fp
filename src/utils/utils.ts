@@ -56,7 +56,7 @@ export const curryNE = ifNotFuncThrowError(curryN);
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
 
 export const formatLocalNumber = toLocaleStringNumb(navigator.language, {});
-export const formatPercentage = toLocaleStringNumb(navigator.language, {style: 'percent'});
+export const formatLocalPercentage = toLocaleStringNumb(navigator.language, {style: 'percent'});
 
 type currency = 'USD' | 'EUR';
 export const formatLocalCurrency = curry((currency: currency, numb: number) => toLocaleStringNumb(navigator.language, {style: 'currency', currency}, numb));
