@@ -8,8 +8,7 @@
   "type": "module",
   "scripts": {
     "test": "jest",
-    "build": "rollup -c",
-    "postinstall": "yarn build"
+    "build": "rollup -c"
   },
   "author": "",
   "license": "ISC",
