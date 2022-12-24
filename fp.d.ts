@@ -51,7 +51,7 @@ declare const curryE: any;
 declare const curryNE: any;
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const formatLocalNumber: any;
-declare const formatPercentage: any;
+declare const formatLocalPercentage: any;
 declare const formatLocalCurrency: (...args: any[]) => any;
 
-export { args, avg, binaryOp, cloneSpread, cloneStringify, compose, curry, curryE, curryN, curryNE, demethodize, divide, equal, every, flip, formatLocalCurrency, formatLocalNumber, formatPercentage, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, logger, map, memoize, multiply, negate, not, pipe, reduce, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf };
+export { args, avg, binaryOp, cloneSpread, cloneStringify, compose, curry, curryE, curryN, curryNE, demethodize, divide, equal, every, flip, formatLocalCurrency, formatLocalNumber, formatLocalPercentage, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, logger, map, memoize, multiply, negate, not, pipe, reduce, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf };
