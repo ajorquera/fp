@@ -1,10 +1,13 @@
 import { not } from '../index';
-import {binaryOp, compose, curryE, every, formatLocalCurrency, formatLocalNumber, getProp, identity, isNumber, map, pipe, reduce, some, stringTemplate, sum} from './utils'
+import {binaryOp, compose, curryE, equal, every, formatLocalCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
 
 let languageGetter;
 beforeEach(() => {
     languageGetter = jest.spyOn(window.navigator, 'language', 'get')
 })
+
+const formatLocalNumber = toLocaleStringNumb(navigator.language, {})
+
 
 test('reduce', () => {
     const result = reduce(0, (acc, val) => acc + val, [1,2,3]);
@@ -55,9 +58,11 @@ test('formatLocalNumber', () => {
 test('formatLocalCurrency', () => {
     languageGetter.mockReturnValueOnce('es');
     const number = 453453.23423423424;
+    const formatToUSD = formatLocalCurrency('USD');
+
     //expect(formatLocalCurrency('EUR',number)).toContain('453.453,23 €')
     expect(formatLocalCurrency('EUR',number)).toContain('453.453,23')
-    expect(formatLocalCurrency('EUR',number)).toContain('€')
+    expect(formatToUSD(number)).toContain('$')
 
     languageGetter.mockReturnValueOnce('en');
 
@@ -128,3 +133,20 @@ test('curryE', () => {
     const result = curriedFn(1)(2)(3);
     expect(result).toEqual([1,2,3]);
 })
+
+test('ifElse', () => {
+    const trueMock = jest.fn();
+    const falseMock = jest.fn();
+
+    const checkArg = ifElse(equal(true), trueMock, falseMock);
+
+    checkArg(true);
+    expect(trueMock).toBeCalledTimes(1);
+    expect(falseMock).toBeCalledTimes(0);
+
+    checkArg(false);
+
+    expect(trueMock).toBeCalledTimes(1);
+    expect(falseMock).toBeCalledTimes(1);
+})
+

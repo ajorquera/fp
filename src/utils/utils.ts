@@ -2,7 +2,16 @@ import { args, curry, curryN, demethodize, flip, not } from "../HOF/index";
 
 export const binaryOp = (operator) => new Function('a', 'b', `return a ${operator} b`);
 export const identity = arg => () => arg;
+export const arg = arg => arg;
 export const ifElse = curry((condition, ifFn, elseFn) => (...args) => condition(...args) ? ifFn(...args) : elseFn(...args));
+
+function randomNumber(min, max) { 
+    min = Math.ceil(min);
+    max = Math.floor(max);
+    return Math.floor(Math.random() * (max - min + 1)) + min;
+} 
+
+export const pickRandom = (...args) => args[randomNumber(0, args.length - 1)];
 
 export const map = curryN(2, flip(demethodize(Array.prototype.map)));
 export const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
@@ -18,6 +27,14 @@ export const substract = args(reduce(binaryOp('-')));
 export const multiply = args(reduce(binaryOp('*')));
 export const divide = args(reduce(binaryOp('/')));
 export const getProp = curry((attr, obj) => obj[attr]);
+export const removeProp = curry((attr, obj) => {
+    const {[attr]: _, ...rest} = obj;
+    return rest;
+});
+
+export const values = Object.values;
+export const entries = Object.entries;
+export const keys = Object.keys;
 
 export const cloneSpread = (obj) => ({...obj});
 export const equal = curry((a,b) => a === b);
@@ -33,6 +50,7 @@ export const isInfinity = equal(Infinity);
 export const isFunction = pipe(typeOf, equal('function'));
 export const isArray = Array.isArray;
 export const isBoolean = x => typeof x === 'boolean';
+export const isObject = every(pipe(typeOf, equal('object')), not(isArray));
 export const isNaN = Number.isNaN;
 export const toAbs = (x, abs=Math.abs) => abs(x)
 export const isNumber = x => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
@@ -54,9 +72,6 @@ export const curryNE = ifNotFuncThrowError(curryN);
 
 
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
-
-export const formatLocalNumber = toLocaleStringNumb(navigator.language, {});
-export const formatLocalPercentage = toLocaleStringNumb(navigator.language, {style: 'percent'});
 
 type currency = 'USD' | 'EUR';
 export const formatLocalCurrency = curry((currency: currency, numb: number) => toLocaleStringNumb(navigator.language, {style: 'currency', currency}, numb));
