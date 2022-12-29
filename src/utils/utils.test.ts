@@ -1,13 +1,10 @@
 import { not } from '../index';
-import {binaryOp, compose, curryE, equal, every, formatLocalCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
+import {binaryOp, compose, curryE, equal, every, formatCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
 
 let languageGetter;
-beforeEach(() => {
-    languageGetter = jest.spyOn(window.navigator, 'language', 'get')
-})
 
-const formatLocalNumber = toLocaleStringNumb(navigator.language, {})
-
+const formatLocalNumber = toLocaleStringNumb('es', {})
+const formatLocalCurrency = formatCurrency('es');
 
 test('reduce', () => {
     const result = reduce(0, (acc, val) => acc + val, [1,2,3]);
@@ -49,25 +46,6 @@ test('getProp', () => {
     expect(getDataProp(obj)).toBe(obj.data);
 })
 
-test('formatLocalNumber', () => {
-    languageGetter.mockReturnValueOnce('es');
-    const number = 453453.23423423424;
-    expect(formatLocalNumber(number)).toBe('453,453.234')
-});
-
-test('formatLocalCurrency', () => {
-    languageGetter.mockReturnValueOnce('es');
-    const number = 453453.23423423424;
-    const formatToUSD = formatLocalCurrency('USD');
-
-    //expect(formatLocalCurrency('EUR',number)).toContain('453.453,23 €')
-    expect(formatLocalCurrency('EUR',number)).toContain('453.453,23')
-    expect(formatToUSD(number)).toContain('$')
-
-    languageGetter.mockReturnValueOnce('en');
-
-    expect(formatLocalCurrency('EUR',number)).toBe('€453,453.23')
-});
 
 test('isNumber', () => {
     expect(isNumber(1)).toBe(true);

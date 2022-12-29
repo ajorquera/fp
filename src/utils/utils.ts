@@ -74,4 +74,4 @@ export const curryNE = ifNotFuncThrowError(curryN);
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
 
 type currency = 'USD' | 'EUR';
-export const formatLocalCurrency = curry((currency: currency, numb: number) => toLocaleStringNumb(navigator.language, {style: 'currency', currency}, numb));
+export const formatCurrency = curry((lang, currency: currency, numb: number) => toLocaleStringNumb(lang, {style: 'currency', currency}, numb));

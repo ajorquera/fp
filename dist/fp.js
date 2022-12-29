@@ -91,7 +91,7 @@ const ifNotFuncThrowError = ifElse(not(isFunction), (arg2) => throwError("No fun
 const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
 const toLocaleStringNumb = curry((lang, options, x) => x.toLocaleString(lang, options));
-const formatLocalCurrency = curry((currency, numb) => toLocaleStringNumb(navigator.language, { style: "currency", currency }, numb));
+const formatCurrency = curry((lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb));
 
 exports.arg = arg;
 exports.args = args;
@@ -110,7 +110,7 @@ exports.entries = entries;
 exports.equal = equal;
 exports.every = every;
 exports.flip = flip;
-exports.formatLocalCurrency = formatLocalCurrency;
+exports.formatCurrency = formatCurrency;
 exports.getProp = getProp;
 exports.identity = identity;
 exports.ifElse = ifElse;
