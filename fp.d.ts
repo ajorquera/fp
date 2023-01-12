@@ -19,6 +19,7 @@ declare const arg: (arg: any) => any;
 declare const ifElse: (...args: any[]) => any;
 declare const pickRandom: (...args: any[]) => any;
 declare const map: (...args: any[]) => any;
+declare const filter: (...args: any[]) => any;
 declare const reduce: (...args: any[]) => any;
 declare const every: (...fns: any[]) => (arg: any) => any;
 declare const pipe: (...fns: any[]) => (arg: any) => any;
@@ -69,7 +70,9 @@ declare const stringTemplate: (...args: any[]) => any;
 declare const ifNotFuncThrowError: any;
 declare const curryE: any;
 declare const curryNE: any;
+type logLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
+declare const createLogger: (name: logLevel, cons?: Console) => (...args: any[]) => void;
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const formatCurrency: (...args: any[]) => any;
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, flip, formatCurrency, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flip, formatCurrency, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf, values };

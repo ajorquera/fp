@@ -44,6 +44,7 @@ function randomNumber(min, max) {
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
+const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
 const every = (...fns) => (arg2) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg2));
 const pipe = (...fns) => (arg2) => reduce(arg2, (acc, fn) => fn(acc), fns);
@@ -90,6 +91,7 @@ const stringTemplate = curry((template, obj) => {
 const ifNotFuncThrowError = ifElse(not(isFunction), (arg2) => throwError("No function provided. Receive: " + JSON.stringify(arg2)));
 const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
+const createLogger = (name, cons = console) => (...args2) => cons[name](...args2);
 const toLocaleStringNumb = curry((lang, options, x) => x.toLocaleString(lang, options));
 const formatCurrency = curry((lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb));
 
@@ -100,6 +102,7 @@ exports.binaryOp = binaryOp;
 exports.cloneSpread = cloneSpread;
 exports.cloneStringify = cloneStringify;
 exports.compose = compose;
+exports.createLogger = createLogger;
 exports.curry = curry;
 exports.curryE = curryE;
 exports.curryN = curryN;
@@ -109,6 +112,7 @@ exports.divide = divide;
 exports.entries = entries;
 exports.equal = equal;
 exports.every = every;
+exports.filter = filter;
 exports.flip = flip;
 exports.formatCurrency = formatCurrency;
 exports.getProp = getProp;
