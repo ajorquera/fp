@@ -17,11 +17,13 @@ export const map = curryN(2, flip(demethodize(Array.prototype.map)));
 export const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 export const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
 
+export const flat = demethodize(Array.prototype.flat);
 export const every = (...fns) => arg => demethodize(Array.prototype.every)(fns, fn => fn(arg));
 export const pipe = (...fns) => arg => reduce(arg, (acc, fn) => fn(acc), fns);
 export const some = (...fns) => arg => fns.some(fn => fn(arg));
 export const sum = (...args) => reduce(0, (a,b)=> a + b, Array.isArray(args[0]) ? args[0] : args);                                  
 export const avg = (...args) => sum(...args) / args.length;
+export const uniq = (arr) => [...new Set(arr)];
 
 export const compose = flip(pipe);
 export const substract = args(reduce(binaryOp('-')));
@@ -72,7 +74,7 @@ export const curryE = ifNotFuncThrowError(curry);
 export const curryNE = ifNotFuncThrowError(curryN);
 
 type logLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
-export const createLogger = (name:logLevel, cons=console) => (...args) => cons[name](...args);
+export const createLogger = (name:logLevel,prefix='', cons=console) => (...args) => cons[name](prefix, ...args);
 
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
 
