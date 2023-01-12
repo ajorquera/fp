@@ -1,5 +1,5 @@
 import { not } from '../index';
-import {binaryOp, compose, curryE, equal, every, formatCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
+import {binaryOp, compose, curryE, equal, every, filter, formatCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
 
 let languageGetter;
 
@@ -126,5 +126,10 @@ test('ifElse', () => {
 
     expect(trueMock).toBeCalledTimes(1);
     expect(falseMock).toBeCalledTimes(1);
-})
+});
+
+test('filter', () => {   
+    const result = filter((val) => val > 1, [1,2,3]);
+    expect(result).toEqual([2,3]);
+});
 

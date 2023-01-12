@@ -14,6 +14,7 @@ function randomNumber(min, max) {
 export const pickRandom = (...args) => args[randomNumber(0, args.length - 1)];
 
 export const map = curryN(2, flip(demethodize(Array.prototype.map)));
+export const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 export const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
 
 export const every = (...fns) => arg => demethodize(Array.prototype.every)(fns, fn => fn(arg));
@@ -70,6 +71,8 @@ export const ifNotFuncThrowError = ifElse(not(isFunction), (arg) => throwError('
 export const curryE = ifNotFuncThrowError(curry);
 export const curryNE = ifNotFuncThrowError(curryN);
 
+type logLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
+export const createLogger = (name:logLevel, cons=console) => (...args) => cons[name](...args);
 
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
 
