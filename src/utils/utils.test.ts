@@ -1,10 +1,5 @@
 import { not } from '../index';
-import {binaryOp, compose, curryE, equal, every, filter, formatCurrency, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleStringNumb} from './utils'
-
-let languageGetter;
-
-const formatLocalNumber = toLocaleStringNumb('es', {})
-const formatLocalCurrency = formatCurrency('es');
+import {binaryOp, compose, createLogger, curryE, equal, every, filter, getProp, identity, ifElse,isNumber, map, pipe, reduce, some, stringTemplate, sum, toLocaleCurrency, toLocaleStringNumb} from './utils'
 
 test('reduce', () => {
     const result = reduce(0, (acc, val) => acc + val, [1,2,3]);
@@ -40,10 +35,12 @@ test('map', () => {
 
 
 test('getProp', () => {
-    const obj = {data: 'my-cooldata'};
+    const obj = {data: 'my-cooldata', nested: {data: 'my-nested-data'}};
     const getDataProp = getProp('data');
+    const getNestedDataProp = getProp('nested.data');
 
     expect(getDataProp(obj)).toBe(obj.data);
+    expect(getNestedDataProp(obj)).toBe(obj.nested.data);
 })
 
 
@@ -131,5 +128,94 @@ test('ifElse', () => {
 test('filter', () => {   
     const result = filter((val) => val > 1, [1,2,3]);
     expect(result).toEqual([2,3]);
+});
+
+describe('createLogger', () => {
+    const strToLog = 'test';
+    jest.spyOn(console, 'log').mockImplementation(() => {});
+    jest.spyOn(console, 'warn').mockImplementation(() => {});
+    jest.spyOn(console, 'error').mockImplementation(() => {});
+    
+    const mockConsole = {
+        log: jest.fn(),
+        warn: jest.fn(),
+        error: jest.fn(),
+        info: jest.fn(),
+        debug: jest.fn()
+    };
+
+    beforeEach(() => {
+        (console.log as jest.Mock).mockClear();
+        (console.warn  as jest.Mock).mockClear();
+        (console.error  as jest.Mock).mockClear();
+    });
+
+    test('should log, warn and error', () => {
+    
+        const log = createLogger('log');
+        const warn = createLogger('warn');
+        const error = createLogger('error');
+    
+        log(strToLog);
+        warn(strToLog);
+        error(strToLog);
+        
+        expect(console.log).toBeCalledTimes(1);
+        expect(console.log).toBeCalledWith(strToLog);
+    
+        expect(console.warn).toBeCalledTimes(1);
+        expect(console.warn).toBeCalledWith(strToLog);
+    
+        expect(console.error).toBeCalledTimes(1);
+        expect(console.error).toBeCalledWith(strToLog);
+    });
+
+    test('should log, warn and error with prefix', () => {
+        const prefix = 'prefix';
+        const logPrefix = createLogger('log', prefix);
+    
+        logPrefix(strToLog);
+    
+        expect(console.log).toBeCalledTimes(1);
+        expect(console.log).toBeCalledWith(prefix, strToLog);
+    });
+
+
+    test('should log, warn and error with custom console', () => {
+        const logConsoleMock = createLogger('log', '', mockConsole);
+        logConsoleMock(strToLog);
+    
+        expect(mockConsole.log).toBeCalledTimes(1);
+        expect(mockConsole.log).toBeCalledWith(strToLog);
+    });
+})
+
+test('toLocaleStringNumb', () => {
+    const toESNumber = toLocaleStringNumb('es', {});
+
+    expect(toESNumber(1000)).toBe('1000');
+    expect(toESNumber(1000000)).toBe('1.000.000');
+    expect(toESNumber(1000000.123)).toBe('1.000.000,123');
+
+    const toUSNumber = toLocaleStringNumb('en-US', {});
+
+    expect(toUSNumber(1000)).toBe('1,000');
+    expect(toUSNumber(1000000)).toBe('1,000,000');
+    expect(toUSNumber(1000000.1233232)).toBe('1,000,000.123');
+
+});
+
+test('toLocaleCurrency', () => {
+    const toESEuroCurrency = toLocaleCurrency('es', 'EUR');
+
+    expect(toESEuroCurrency(1000)).toBe('1000,00 €');
+    expect(toESEuroCurrency(1000000)).toBe('1.000.000,00 €');
+    expect(toESEuroCurrency(1000000.123)).toBe('1.000.000,12 €');
+
+    const toUSUsdCurrency = toLocaleCurrency('en-US', 'USD');
+
+    expect(toUSUsdCurrency(1000)).toBe('$1,000.00');
+    expect(toUSUsdCurrency(1000000)).toBe('$1,000,000.00');
+    expect(toUSUsdCurrency(1000000.1233232)).toBe('$1,000,000.12');
 });
 

@@ -29,7 +29,13 @@ export const compose = flip(pipe);
 export const substract = args(reduce(binaryOp('-')));
 export const multiply = args(reduce(binaryOp('*')));
 export const divide = args(reduce(binaryOp('/')));
-export const getProp = curry((attr, obj) => obj[attr]);
+
+export const getProp = curry((path: string, obj) => {
+    const pathArr = path.split('.');
+    return pathArr.reduce((acc, val) => acc === undefined ? acc : acc[val], obj);
+});
+
+
 export const removeProp = curry((attr, obj) => {
     const {[attr]: _, ...rest} = obj;
     return rest;
@@ -40,8 +46,8 @@ export const entries = Object.entries;
 export const keys = Object.keys;
 
 export const cloneSpread = (obj) => ({...obj});
-export const equal = curry((a,b) => a === b);
 export const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj)); 
+export const equal = curry((a,b) => a === b);
 export const typeOf = (x) => typeof x;
 export const to = curry((constr, x) => new constr(x));
 
@@ -74,9 +80,13 @@ export const curryE = ifNotFuncThrowError(curry);
 export const curryNE = ifNotFuncThrowError(curryN);
 
 type logLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
-export const createLogger = (name:logLevel,prefix='', cons=console) => (...args) => cons[name](prefix, ...args);
+type console = Pick<Console, logLevel>
+export const createLogger = (name:logLevel,prefix='', cons:console=console) => {
+    return (...args) => prefix ? cons[name](prefix, ...args) : cons[name](...args);
+};
 
 export const toLocaleStringNumb = curry((lang: Intl.LocalesArgument, options: Intl.NumberFormatOptions, x: number) => x.toLocaleString(lang, options));
 
 type currency = 'USD' | 'EUR';
-export const formatCurrency = curry((lang, currency: currency, numb: number) => toLocaleStringNumb(lang, {style: 'currency', currency}, numb));
+type lang = 'es' | 'en';
+export const toLocaleCurrency = curry((lang: lang, currency: currency, numb: number) => toLocaleStringNumb(lang, {style: 'currency', currency}, numb));

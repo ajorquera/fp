@@ -51,8 +51,8 @@ declare const keys: {
     (o: {}): string[];
 };
 declare const cloneSpread: (obj: any) => any;
-declare const equal: (...args: any[]) => any;
 declare const cloneStringify: (obj: any) => any;
+declare const equal: (...args: any[]) => any;
 declare const typeOf: (x: any) => "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
 declare const to: (...args: any[]) => any;
 declare const toNumber: any;
@@ -73,8 +73,9 @@ declare const ifNotFuncThrowError: any;
 declare const curryE: any;
 declare const curryNE: any;
 type logLevel = 'log' | 'warn' | 'error' | 'info' | 'debug';
-declare const createLogger: (name: logLevel, prefix?: string, cons?: Console) => (...args: any[]) => void;
+type console = Pick<Console, logLevel>;
+declare const createLogger: (name: logLevel, prefix?: string, cons?: console) => (...args: any[]) => void;
 declare const toLocaleStringNumb: (...args: any[]) => any;
-declare const formatCurrency: (...args: any[]) => any;
+declare const toLocaleCurrency: (...args: any[]) => any;
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, formatCurrency, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
