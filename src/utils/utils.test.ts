@@ -246,3 +246,19 @@ test('max', () => {
   expect(max(1, 1)).toBe(1);
   expect(max([1, 5])).toBe(5);
 });
+
+test('getProp', () => {
+  const obj = {
+    a: {
+      b: {
+        c: 1,
+      },
+    },
+  };
+  obj[0] = 1;
+
+  expect(getProp('a.b.c', obj)).toBe(1);
+  expect(getProp('a.b.c')(obj)).toBe(1);
+  expect(getProp('a.b.d', obj)).toBe(undefined);
+  expect(getProp(0, obj)).toBe(1);
+});

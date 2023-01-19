@@ -43,8 +43,8 @@ export const substract = args(reduce(binaryOp('-')));
 export const multiply = args(reduce(binaryOp('*')));
 export const divide = args(reduce(binaryOp('/')));
 
-export const getProp = curry((path: string, obj) => {
-  const pathArr = path.split('.');
+export const getProp = curry((path: string | number, obj) => {
+  const pathArr = String(path).split('.');
   return pathArr.reduce((acc, val) => (acc === undefined ? acc : acc[val]), obj);
 });
 
@@ -78,6 +78,7 @@ export const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
 export const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 export const instanceOf = curry((constr, x) => x instanceof constr);
 export const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+
 export const spread = (fn) => (args) => fn(...args);
 export const max = ifElse(isArray, spread(Math.max), Math.max);
 
