@@ -67,6 +67,8 @@ declare const isNaN: (number: unknown) => boolean;
 declare const toAbs: (x: any, abs?: (x: number) => number) => number;
 declare const isNumber: (x: any) => boolean;
 declare const isNumber2: (arg: any) => any;
+declare const instanceOf: (...args: any[]) => any;
+declare const isDate: (arg: any) => any;
 declare const throwError: (msg: any) => never;
 declare const stringTemplate: (...args: any[]) => any;
 declare const ifNotFuncThrowError: any;
@@ -78,4 +80,4 @@ declare const createLogger: (name: logLevel, prefix?: string, cons?: console) =>
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, isArray, isBoolean, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };

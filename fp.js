@@ -36,7 +36,9 @@ const memoize = (fn, stringify = JSON.stringify) => {
 const binaryOp = (operator) => new Function("a", "b", `return a ${operator} b`);
 const identity = (arg2) => () => arg2;
 const arg = (arg2) => arg2;
-const ifElse = curry((condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2));
+const ifElse = curry(
+  (condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2)
+);
 function randomNumber(min, max) {
   min = Math.ceil(min);
   max = Math.floor(max);
@@ -85,6 +87,8 @@ const isNaN = Number.isNaN;
 const toAbs = (x, abs = Math.abs) => abs(x);
 const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
 const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
+const instanceOf = curry((constr, x) => x instanceof constr);
+const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
 const throwError = (msg) => {
   throw msg;
 };
@@ -93,14 +97,21 @@ const stringTemplate = curry((template, obj) => {
   const values2 = Object.values(obj);
   return new Function(...keys2, `return \`${template}\``)(...values2);
 });
-const ifNotFuncThrowError = ifElse(not(isFunction), (arg2) => throwError("No function provided. Receive: " + JSON.stringify(arg2)));
+const ifNotFuncThrowError = ifElse(
+  not(isFunction),
+  (arg2) => throwError("No function provided. Receive: " + JSON.stringify(arg2))
+);
 const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
 const createLogger = (name, prefix = "", cons = console) => {
   return (...args2) => prefix ? cons[name](prefix, ...args2) : cons[name](...args2);
 };
-const toLocaleStringNumb = curry((lang, options, x) => x.toLocaleString(lang, options));
-const toLocaleCurrency = curry((lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb));
+const toLocaleStringNumb = curry(
+  (lang, options, x) => x.toLocaleString(lang, options)
+);
+const toLocaleCurrency = curry(
+  (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
+);
 
 exports.arg = arg;
 exports.args = args;
@@ -126,8 +137,10 @@ exports.getProp = getProp;
 exports.identity = identity;
 exports.ifElse = ifElse;
 exports.ifNotFuncThrowError = ifNotFuncThrowError;
+exports.instanceOf = instanceOf;
 exports.isArray = isArray;
 exports.isBoolean = isBoolean;
+exports.isDate = isDate;
 exports.isFunction = isFunction;
 exports.isInfinity = isInfinity;
 exports.isNaN = isNaN;
