@@ -39,10 +39,10 @@ const arg = (arg2) => arg2;
 const ifElse = curry(
   (condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2)
 );
-function randomNumber(min, max) {
+function randomNumber(min, max2) {
   min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  max2 = Math.floor(max2);
+  return Math.floor(Math.random() * (max2 - min + 1)) + min;
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
@@ -89,6 +89,8 @@ const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
 const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 const instanceOf = curry((constr, x) => x instanceof constr);
 const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+const spread = (fn) => (args2) => fn(...args2);
+const max = ifElse(isArray, spread(Math.max), Math.max);
 const throwError = (msg) => {
   throw msg;
 };
@@ -150,6 +152,7 @@ exports.isObject = isObject;
 exports.keys = keys;
 exports.logger = logger;
 exports.map = map;
+exports.max = max;
 exports.memoize = memoize;
 exports.multiply = multiply;
 exports.negate = negate;
@@ -159,6 +162,7 @@ exports.pipe = pipe;
 exports.reduce = reduce;
 exports.removeProp = removeProp;
 exports.some = some;
+exports.spread = spread;
 exports.stringTemplate = stringTemplate;
 exports.substract = substract;
 exports.sum = sum;

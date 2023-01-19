@@ -37,10 +37,10 @@ const arg = (arg2) => arg2;
 const ifElse = curry(
   (condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2)
 );
-function randomNumber(min, max) {
+function randomNumber(min, max2) {
   min = Math.ceil(min);
-  max = Math.floor(max);
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  max2 = Math.floor(max2);
+  return Math.floor(Math.random() * (max2 - min + 1)) + min;
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
@@ -87,6 +87,8 @@ const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
 const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 const instanceOf = curry((constr, x) => x instanceof constr);
 const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+const spread = (fn) => (args2) => fn(...args2);
+const max = ifElse(isArray, spread(Math.max), Math.max);
 const throwError = (msg) => {
   throw msg;
 };
@@ -111,5 +113,5 @@ const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
 //# sourceMappingURL=fp.mjs.map
