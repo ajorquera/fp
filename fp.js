@@ -60,7 +60,7 @@ const substract = args(reduce(binaryOp("-")));
 const multiply = args(reduce(binaryOp("*")));
 const divide = args(reduce(binaryOp("/")));
 const getProp = curry((path, obj) => {
-  const pathArr = path.split(".");
+  const pathArr = String(path).split(".");
   return pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
 });
 const removeProp = curry((attr, obj) => {
