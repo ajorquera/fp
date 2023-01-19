@@ -73,9 +73,15 @@ const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj));
 const equal = curry((a, b) => a === b);
 const typeOf = (x) => typeof x;
 const to = curry((constr, x) => new constr(x));
-const toNumber = to(Number);
+const valueOf = (x) => x.valueOf();
+const toNumber = pipe(to(Number), valueOf);
 const toBoolean = to(Boolean);
-const toSring = to(String);
+const toString = to(String);
+const toDate = to(Date);
+const tap = curry((fn, arg2) => {
+  fn(arg2);
+  return arg2;
+});
 const isInfinity = equal(Infinity);
 const isFunction = pipe(typeOf, equal("function"));
 const isArray = Array.isArray;
@@ -113,5 +119,5 @@ const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
 //# sourceMappingURL=fp.mjs.map

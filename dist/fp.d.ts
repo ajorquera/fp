@@ -55,9 +55,12 @@ declare const cloneStringify: (obj: any) => any;
 declare const equal: (...args: any[]) => any;
 declare const typeOf: (x: any) => "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
 declare const to: (...args: any[]) => any;
-declare const toNumber: any;
+declare const valueOf: (x: any) => any;
+declare const toNumber: (arg: any) => any;
 declare const toBoolean: any;
-declare const toSring: any;
+declare const toString: any;
+declare const toDate: any;
+declare const tap: (...args: any[]) => any;
 declare const isInfinity: any;
 declare const isFunction: (arg: any) => any;
 declare const isArray: (arg: any) => arg is any[];
@@ -82,4 +85,4 @@ declare const createLogger: (name: logLevel, prefix?: string, cons?: console) =>
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, throwError, timer, to, toAbs, toBoolean, toLocaleCurrency, toLocaleStringNumb, toNumber, toSring, typeOf, uniq, values };
+export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };

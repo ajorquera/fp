@@ -62,10 +62,16 @@ export const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj));
 export const equal = curry((a, b) => a === b);
 export const typeOf = (x) => typeof x;
 export const to = curry((constr, x) => new constr(x));
+export const valueOf = (x) => x.valueOf();
 
-export const toNumber = to(Number);
+export const toNumber = pipe(to(Number), valueOf);
 export const toBoolean = to(Boolean);
-export const toSring = to(String);
+export const toString = to(String);
+export const toDate = to(Date);
+export const tap = curry((fn, arg) => {
+  fn(arg);
+  return arg;
+});
 
 export const isInfinity = equal(Infinity);
 export const isFunction = pipe(typeOf, equal('function'));
