@@ -13,6 +13,7 @@ import {
   isDate,
   isNumber,
   map,
+  max,
   pipe,
   reduce,
   some,
@@ -237,4 +238,11 @@ test('isDate', () => {
   expect(isDate('')).toBe(false);
   expect(isDate(1)).toBe(false);
   expect(isDate({})).toBe(false);
+});
+
+test('max', () => {
+  expect(max(1, 2)).toBe(2);
+  expect(max(2, 1)).toBe(2);
+  expect(max(1, 1)).toBe(1);
+  expect(max([1, 5])).toBe(5);
 });

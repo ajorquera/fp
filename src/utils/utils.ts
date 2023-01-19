@@ -78,6 +78,8 @@ export const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
 export const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 export const instanceOf = curry((constr, x) => x instanceof constr);
 export const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+export const spread = (fn) => (args) => fn(...args);
+export const max = ifElse(isArray, spread(Math.max), Math.max);
 
 export const throwError = (msg) => {
   throw msg;
