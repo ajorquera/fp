@@ -19,8 +19,10 @@ declare const arg: (arg: any) => any;
 declare const ifElse: (...args: any[]) => any;
 declare const pickRandom: (...args: any[]) => any;
 declare const map: (...args: any[]) => any;
+declare const find: (...args: any[]) => any;
 declare const filter: (...args: any[]) => any;
 declare const reduce: (...args: any[]) => any;
+declare const always: (arg: any) => () => any;
 declare const flat: (arg0: any, ...args: any[]) => any;
 declare const every: (...fns: any[]) => (arg: any) => any;
 declare const pipe: (...fns: any[]) => (arg: any) => any;
@@ -33,6 +35,7 @@ declare const substract: (...args: any[]) => any;
 declare const multiply: (...args: any[]) => any;
 declare const divide: (...args: any[]) => any;
 declare const getProp: (...args: any[]) => any;
+declare const setProp: (...args: any[]) => any;
 declare const removeProp: (...args: any[]) => any;
 declare const values: {
     <T>(o: {
@@ -51,7 +54,8 @@ declare const keys: {
     (o: {}): string[];
 };
 declare const cloneSpread: (obj: any) => any;
-declare const cloneStringify: (obj: any) => any;
+type returnSameTypeFn = <T>(arg: T) => T;
+declare const cloneStringify: returnSameTypeFn;
 declare const equal: (...args: any[]) => any;
 declare const typeOf: (x: any) => "string" | "number" | "bigint" | "boolean" | "symbol" | "undefined" | "object" | "function";
 declare const to: (...args: any[]) => any;
@@ -85,4 +89,4 @@ declare const createLogger: (name: logLevel, prefix?: string, cons?: console) =>
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
+export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
