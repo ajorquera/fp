@@ -18,8 +18,10 @@ function randomNumber(min, max) {
 export const pickRandom = (...args) => args[randomNumber(0, args.length - 1)];
 
 export const map = curryN(2, flip(demethodize(Array.prototype.map)));
+export const find = curryN(2, flip(demethodize(Array.prototype.find)));
 export const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 export const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
+export const always = (arg) => () => arg;
 
 export const flat = demethodize(Array.prototype.flat);
 export const every =
@@ -48,6 +50,16 @@ export const getProp = curry((path: string | number, obj) => {
   return pathArr.reduce((acc, val) => (acc === undefined ? acc : acc[val]), obj);
 });
 
+export const setProp = curry((path: string | number, value, obj) => {
+  const pathArr = String(path).split('.');
+  const lastKey = pathArr.pop();
+  const lastObj = pathArr.reduce((acc, val) => (acc === undefined ? acc : acc[val]), obj);
+  if (lastObj) {
+    lastObj[lastKey] = value;
+  }
+  return obj;
+});
+
 export const removeProp = curry((attr, obj) => {
   const { [attr]: _, ...rest } = obj;
   return rest;
@@ -58,7 +70,9 @@ export const entries = Object.entries;
 export const keys = Object.keys;
 
 export const cloneSpread = (obj) => ({ ...obj });
-export const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj));
+
+type returnSameTypeFn = <T>(arg: T) => T;
+export const cloneStringify: returnSameTypeFn = (obj) => JSON.parse(JSON.stringify(obj));
 export const equal = curry((a, b) => a === b);
 export const typeOf = (x) => typeof x;
 export const to = curry((constr, x) => new constr(x));

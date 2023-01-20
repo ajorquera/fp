@@ -46,8 +46,10 @@ function randomNumber(min, max2) {
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
+const find = curryN(2, flip(demethodize(Array.prototype.find)));
 const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
+const always = (arg2) => () => arg2;
 const flat = demethodize(Array.prototype.flat);
 const every = (...fns) => (arg2) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg2));
 const pipe = (...fns) => (arg2) => reduce(arg2, (acc, fn) => fn(acc), fns);
@@ -62,6 +64,15 @@ const divide = args(reduce(binaryOp("/")));
 const getProp = curry((path, obj) => {
   const pathArr = String(path).split(".");
   return pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+});
+const setProp = curry((path, value, obj) => {
+  const pathArr = String(path).split(".");
+  const lastKey = pathArr.pop();
+  const lastObj = pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+  if (lastObj) {
+    lastObj[lastKey] = value;
+  }
+  return obj;
 });
 const removeProp = curry((attr, obj) => {
   const { [attr]: _, ...rest } = obj;
@@ -121,6 +132,7 @@ const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
 
+exports.always = always;
 exports.arg = arg;
 exports.args = args;
 exports.avg = avg;
@@ -139,6 +151,7 @@ exports.entries = entries;
 exports.equal = equal;
 exports.every = every;
 exports.filter = filter;
+exports.find = find;
 exports.flat = flat;
 exports.flip = flip;
 exports.getProp = getProp;
@@ -167,6 +180,7 @@ exports.pickRandom = pickRandom;
 exports.pipe = pipe;
 exports.reduce = reduce;
 exports.removeProp = removeProp;
+exports.setProp = setProp;
 exports.some = some;
 exports.spread = spread;
 exports.stringTemplate = stringTemplate;

@@ -44,8 +44,10 @@ function randomNumber(min, max2) {
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
+const find = curryN(2, flip(demethodize(Array.prototype.find)));
 const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
+const always = (arg2) => () => arg2;
 const flat = demethodize(Array.prototype.flat);
 const every = (...fns) => (arg2) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg2));
 const pipe = (...fns) => (arg2) => reduce(arg2, (acc, fn) => fn(acc), fns);
@@ -60,6 +62,15 @@ const divide = args(reduce(binaryOp("/")));
 const getProp = curry((path, obj) => {
   const pathArr = String(path).split(".");
   return pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+});
+const setProp = curry((path, value, obj) => {
+  const pathArr = String(path).split(".");
+  const lastKey = pathArr.pop();
+  const lastObj = pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+  if (lastObj) {
+    lastObj[lastKey] = value;
+  }
+  return obj;
 });
 const removeProp = curry((attr, obj) => {
   const { [attr]: _, ...rest } = obj;
@@ -119,5 +130,5 @@ const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
 
-export { arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
+export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
 //# sourceMappingURL=fp.mjs.map
