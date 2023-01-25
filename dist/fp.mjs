@@ -25,6 +25,9 @@ const memoize = (fn, stringify = JSON.stringify) => {
   };
 };
 
+const values = Object.values;
+const entries = Object.entries;
+const keys = Object.keys;
 const binaryOp = (operator) => new Function("a", "b", `return a ${operator} b`);
 const identity = (arg2) => () => arg2;
 const arg = (arg2) => arg2;
@@ -70,9 +73,6 @@ const removeProp = curry((attr, obj) => {
   const { [attr]: _, ...rest } = obj;
   return rest;
 });
-const values = Object.values;
-const entries = Object.entries;
-const keys = Object.keys;
 const cloneSpread = (obj) => ({ ...obj });
 const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj));
 const equal = curry((a, b) => a === b);
@@ -92,6 +92,7 @@ const tap = curry((fn, arg2) => {
 const isFunction = pipe(typeOf, equal("function"));
 const isArray = Array.isArray;
 const isBoolean = (x) => typeof x === "boolean";
+const isString = pipe(typeOf, equal("string"));
 const isObject = every(pipe(typeOf, equal("object")), not(isArray));
 const isNaN = Number.isNaN;
 const toAbs = (x, abs = Math.abs) => abs(x);
@@ -124,6 +125,15 @@ const toLocaleStringNumb = curry(
 const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
+const len = (obj) => {
+  let len2;
+  if (isObject(obj)) {
+    len2 = pipe(values, getProp("length"))(obj);
+  } else if (isArray(obj) || isString(obj)) {
+    len2 = getProp("length", obj);
+  }
+  return len2;
+};
 
-export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, keys, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
+export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, isString, keys, len, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
 //# sourceMappingURL=fp.mjs.map

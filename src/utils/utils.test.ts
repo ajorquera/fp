@@ -13,6 +13,7 @@ import {
   isDate,
   isInfinity,
   isNumber,
+  len,
   map,
   max,
   pipe,
@@ -270,4 +271,11 @@ test('getProp', () => {
   expect(getProp('a.b.c')(obj)).toBe(1);
   expect(getProp('a.b.d', obj)).toBe(undefined);
   expect(getProp(0, obj)).toBe(1);
+});
+
+test('len', () => {
+  expect(len('')).toBe(0);
+  expect(len('asd')).toBe(3);
+  expect(len([1, 2, 3])).toBe(3);
+  expect(len({'a':1,'b': 2,'c': 3})).toBe(3);
 });

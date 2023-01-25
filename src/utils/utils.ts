@@ -1,5 +1,9 @@
 import { args, curry, curryN, demethodize, flip, not } from '../HOF/index';
 
+export const values = Object.values;
+export const entries = Object.entries;
+export const keys = Object.keys;
+
 export const binaryOp = (operator) => new Function('a', 'b', `return a ${operator} b`);
 export const identity = (arg) => () => arg;
 export const arg = (arg) => arg;
@@ -65,9 +69,7 @@ export const removeProp = curry((attr, obj) => {
   return rest;
 });
 
-export const values = Object.values;
-export const entries = Object.entries;
-export const keys = Object.keys;
+
 
 export const cloneSpread = (obj) => ({ ...obj });
 
@@ -89,9 +91,12 @@ export const tap = curry((fn, arg) => {
   return arg;
 });
 
+
+
 export const isFunction = pipe(typeOf, equal('function'));
 export const isArray = Array.isArray;
 export const isBoolean = (x) => typeof x === 'boolean';
+export const isString = pipe(typeOf, equal('string'))
 export const isObject = every(pipe(typeOf, equal('object')), not(isArray));
 export const isNaN = Number.isNaN;
 export const toAbs = (x, abs = Math.abs) => abs(x);
@@ -135,3 +140,14 @@ type lang = 'es' | 'en';
 export const toLocaleCurrency = curry((lang: lang, currency: currency, numb: number) =>
   toLocaleStringNumb(lang, { style: 'currency', currency }, numb)
 );
+
+export const len = (obj) => {
+  let len;
+  if(isObject(obj)) {
+    len = pipe(values, getProp('length'))(obj)
+  } else if(isArray(obj) || isString(obj)) {
+    len = getProp('length', obj)
+  }
+
+  return len;
+}
