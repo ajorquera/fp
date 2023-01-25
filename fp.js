@@ -27,6 +27,9 @@ const memoize = (fn, stringify = JSON.stringify) => {
   };
 };
 
+const values = Object.values;
+const entries = Object.entries;
+const keys = Object.keys;
 const binaryOp = (operator) => new Function("a", "b", `return a ${operator} b`);
 const identity = (arg2) => () => arg2;
 const arg = (arg2) => arg2;
@@ -72,9 +75,6 @@ const removeProp = curry((attr, obj) => {
   const { [attr]: _, ...rest } = obj;
   return rest;
 });
-const values = Object.values;
-const entries = Object.entries;
-const keys = Object.keys;
 const cloneSpread = (obj) => ({ ...obj });
 const cloneStringify = (obj) => JSON.parse(JSON.stringify(obj));
 const equal = curry((a, b) => a === b);
@@ -94,6 +94,7 @@ const tap = curry((fn, arg2) => {
 const isFunction = pipe(typeOf, equal("function"));
 const isArray = Array.isArray;
 const isBoolean = (x) => typeof x === "boolean";
+const isString = pipe(typeOf, equal("string"));
 const isObject = every(pipe(typeOf, equal("object")), not(isArray));
 const isNaN = Number.isNaN;
 const toAbs = (x, abs = Math.abs) => abs(x);
@@ -126,6 +127,15 @@ const toLocaleStringNumb = curry(
 const toLocaleCurrency = curry(
   (lang, currency, numb) => toLocaleStringNumb(lang, { style: "currency", currency }, numb)
 );
+const len = (obj) => {
+  let len2;
+  if (isObject(obj)) {
+    len2 = pipe(values, getProp("length"))(obj);
+  } else if (isArray(obj) || isString(obj)) {
+    len2 = getProp("length", obj);
+  }
+  return len2;
+};
 
 exports.always = always;
 exports.arg = arg;
@@ -162,7 +172,9 @@ exports.isInfinity = isInfinity;
 exports.isNaN = isNaN;
 exports.isNumber = isNumber;
 exports.isObject = isObject;
+exports.isString = isString;
 exports.keys = keys;
+exports.len = len;
 exports.map = map;
 exports.max = max;
 exports.memoize = memoize;

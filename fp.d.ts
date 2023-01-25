@@ -15,6 +15,22 @@ declare const memoize: (fn: Fn, stringify?: {
     (value: any, replacer?: (string | number)[], space?: string | number): string;
 }) => (...args: any[]) => any;
 
+declare const values: {
+    <T>(o: {
+        [s: string]: T;
+    } | ArrayLike<T>): T[];
+    (o: {}): any[];
+};
+declare const entries: {
+    <T>(o: {
+        [s: string]: T;
+    } | ArrayLike<T>): [string, T][];
+    (o: {}): [string, any][];
+};
+declare const keys: {
+    (o: object): string[];
+    (o: {}): string[];
+};
 declare const binaryOp: (operator: any) => Function;
 declare const identity: (arg: any) => () => any;
 declare const arg: (arg: any) => any;
@@ -39,22 +55,6 @@ declare const divide: (...args: any[]) => any;
 declare const getProp: (...args: any[]) => any;
 declare const setProp: (...args: any[]) => any;
 declare const removeProp: (...args: any[]) => any;
-declare const values: {
-    <T>(o: {
-        [s: string]: T;
-    } | ArrayLike<T>): T[];
-    (o: {}): any[];
-};
-declare const entries: {
-    <T>(o: {
-        [s: string]: T;
-    } | ArrayLike<T>): [string, T][];
-    (o: {}): [string, any][];
-};
-declare const keys: {
-    (o: object): string[];
-    (o: {}): string[];
-};
 declare const cloneSpread: (obj: any) => any;
 type returnSameTypeFn = <T>(arg: T) => T;
 declare const cloneStringify: returnSameTypeFn;
@@ -72,6 +72,7 @@ declare const tap: (...args: any[]) => any;
 declare const isFunction: (arg: any) => any;
 declare const isArray: (arg: any) => arg is any[];
 declare const isBoolean: (x: any) => boolean;
+declare const isString: (arg: any) => any;
 declare const isObject: (arg: any) => any;
 declare const isNaN: (number: unknown) => boolean;
 declare const toAbs: (x: any, abs?: (x: number) => number) => number;
@@ -91,5 +92,6 @@ type console = Pick<Console, logLevel>;
 declare const createLogger: (name: logLevel, prefix?: string, cons?: console) => (...args: any[]) => void;
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
+declare const len: (obj: any) => any;
 
-export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, keys, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
+export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, isString, keys, len, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
