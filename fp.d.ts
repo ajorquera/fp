@@ -6,8 +6,10 @@ declare const args: (fn: Fn) => (...args: any[]) => any;
 declare const flip: (fn: Fn) => (...args: any[]) => any;
 declare const not: (fn: Fn) => (...args: any[]) => boolean;
 declare const negate: (fn: Fn) => (...args: any[]) => number;
-declare const timer: (fn: Fn) => (...args: any[]) => any;
-declare const logger: (fn: Fn) => (...args: any[]) => any;
+declare const timer: (fn: Fn, log?: {
+    (...data: any[]): void;
+    (message?: any, ...optionalParams: any[]): void;
+}) => (...args: any[]) => any;
 declare const memoize: (fn: Fn, stringify?: {
     (value: any, replacer?: (this: any, key: string, value: any) => any, space?: string | number): string;
     (value: any, replacer?: (string | number)[], space?: string | number): string;
@@ -63,17 +65,18 @@ declare const valueOf: (x: any) => any;
 declare const toNumber: (arg: any) => any;
 declare const toBoolean: any;
 declare const toString: any;
+declare const toMap: any;
+declare const toSet: any;
 declare const toDate: any;
 declare const tap: (...args: any[]) => any;
-declare const isInfinity: any;
 declare const isFunction: (arg: any) => any;
 declare const isArray: (arg: any) => arg is any[];
 declare const isBoolean: (x: any) => boolean;
 declare const isObject: (arg: any) => any;
 declare const isNaN: (number: unknown) => boolean;
 declare const toAbs: (x: any, abs?: (x: number) => number) => number;
-declare const isNumber: (x: any) => boolean;
-declare const isNumber2: (arg: any) => any;
+declare const isInfinity: (arg: any) => any;
+declare const isNumber: (arg: any) => any;
 declare const instanceOf: (...args: any[]) => any;
 declare const isDate: (arg: any) => any;
 declare const spread: (fn: any) => (args: any) => any;
@@ -89,4 +92,4 @@ declare const createLogger: (name: logLevel, prefix?: string, cons?: console) =>
 declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
 
-export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isNumber2, isObject, keys, logger, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toNumber, toString, typeOf, uniq, valueOf, values };
+export { always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, keys, map, max, memoize, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
