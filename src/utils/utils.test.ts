@@ -11,6 +11,7 @@ import {
   identity,
   ifElse,
   isDate,
+  isInfinity,
   isNumber,
   map,
   max,
@@ -230,6 +231,14 @@ test('toLocaleCurrency', () => {
   expect(toUSUsdCurrency(1000)).toBe('$1,000.00');
   expect(toUSUsdCurrency(1000000)).toBe('$1,000,000.00');
   expect(toUSUsdCurrency(1000000.1233232)).toBe('$1,000,000.12');
+});
+
+test('isInfinity', () => {
+  expect(isInfinity('asd4')).toBe(false);
+  expect(isInfinity(234)).toBe(false);
+  expect(isInfinity(1/0)).toBe(true);
+  expect(isInfinity(Infinity)).toBe(true);
+  expect(isInfinity(-Infinity)).toBe(true);
 });
 
 test('isDate', () => {

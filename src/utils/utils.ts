@@ -81,21 +81,22 @@ export const valueOf = (x) => x.valueOf();
 export const toNumber = pipe(to(Number), valueOf);
 export const toBoolean = to(Boolean);
 export const toString = to(String);
+export const toMap = to(Map);
+export const toSet = to(Set);
 export const toDate = to(Date);
 export const tap = curry((fn, arg) => {
   fn(arg);
   return arg;
 });
 
-export const isInfinity = equal(Infinity);
 export const isFunction = pipe(typeOf, equal('function'));
 export const isArray = Array.isArray;
 export const isBoolean = (x) => typeof x === 'boolean';
 export const isObject = every(pipe(typeOf, equal('object')), not(isArray));
 export const isNaN = Number.isNaN;
 export const toAbs = (x, abs = Math.abs) => abs(x);
-export const isNumber = (x) => !isNaN(Number(x)) && Math.abs(x) !== Infinity;
-export const isNumber2 = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
+export const isInfinity = pipe(toAbs, equal(Infinity));
+export const isNumber = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 export const instanceOf = curry((constr, x) => x instanceof constr);
 export const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
 
