@@ -27,6 +27,10 @@ export const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 export const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
 export const always = (arg) => () => arg;
 
+export const acc =
+  (...args) =>
+  (...args2) =>
+    args.reduce((acc, fn) => acc.push(fn(...args2)), []);
 export const flat = demethodize(Array.prototype.flat);
 export const every =
   (...fns) =>
@@ -107,6 +111,7 @@ export const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
 
 export const spread = (fn) => (args) => fn(...args);
 export const max = ifElse(isArray, spread(Math.max), Math.max);
+export const min = ifElse(isArray, spread(Math.min), Math.min);
 
 export const throwError = (msg) => {
   throw msg;

@@ -16,6 +16,7 @@ import {
   len,
   map,
   max,
+  min,
   pipe,
   reduce,
   some,
@@ -255,6 +256,13 @@ test('max', () => {
   expect(max(2, 1)).toBe(2);
   expect(max(1, 1)).toBe(1);
   expect(max([1, 5])).toBe(5);
+});
+
+test('min', () => {
+  expect(min(1, 2)).toBe(1);
+  expect(min(2, 1)).toBe(1);
+  expect(min(1, 1)).toBe(1);
+  expect(min([1, 5, 4, 2, 1, -4])).toBe(-4);
 });
 
 test('getProp', () => {

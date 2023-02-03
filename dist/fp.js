@@ -36,10 +36,10 @@ const arg = (arg2) => arg2;
 const ifElse = curry(
   (condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2)
 );
-function randomNumber(min, max2) {
-  min = Math.ceil(min);
+function randomNumber(min2, max2) {
+  min2 = Math.ceil(min2);
   max2 = Math.floor(max2);
-  return Math.floor(Math.random() * (max2 - min + 1)) + min;
+  return Math.floor(Math.random() * (max2 - min2 + 1)) + min2;
 }
 const pickRandom = (...args2) => args2[randomNumber(0, args2.length - 1)];
 const map = curryN(2, flip(demethodize(Array.prototype.map)));
@@ -47,9 +47,10 @@ const find = curryN(2, flip(demethodize(Array.prototype.find)));
 const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
 const always = (arg2) => () => arg2;
+const acc = (...args2) => (...args22) => args2.reduce((acc2, fn) => acc2.push(fn(...args22)), []);
 const flat = demethodize(Array.prototype.flat);
 const every = (...fns) => (arg2) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg2));
-const pipe = (...fns) => (arg2) => reduce(arg2, (acc, fn) => fn(acc), fns);
+const pipe = (...fns) => (arg2) => reduce(arg2, (acc2, fn) => fn(acc2), fns);
 const some = (...fns) => (arg2) => fns.some((fn) => fn(arg2));
 const sum = (...args2) => reduce(0, (a, b) => a + b, Array.isArray(args2[0]) ? args2[0] : args2);
 const avg = (...args2) => sum(...args2) / args2.length;
@@ -60,12 +61,12 @@ const multiply = args(reduce(binaryOp("*")));
 const divide = args(reduce(binaryOp("/")));
 const getProp = curry((path, obj) => {
   const pathArr = String(path).split(".");
-  return pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+  return pathArr.reduce((acc2, val) => acc2 === void 0 ? acc2 : acc2[val], obj);
 });
 const setProp = curry((path, value, obj) => {
   const pathArr = String(path).split(".");
   const lastKey = pathArr.pop();
-  const lastObj = pathArr.reduce((acc, val) => acc === void 0 ? acc : acc[val], obj);
+  const lastObj = pathArr.reduce((acc2, val) => acc2 === void 0 ? acc2 : acc2[val], obj);
   if (lastObj) {
     lastObj[lastKey] = value;
   }
@@ -104,6 +105,7 @@ const instanceOf = curry((constr, x) => x instanceof constr);
 const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
 const spread = (fn) => (args2) => fn(...args2);
 const max = ifElse(isArray, spread(Math.max), Math.max);
+const min = ifElse(isArray, spread(Math.min), Math.min);
 const throwError = (msg) => {
   throw msg;
 };
@@ -137,6 +139,7 @@ const len = (obj) => {
   return len2;
 };
 
+exports.acc = acc;
 exports.always = always;
 exports.arg = arg;
 exports.args = args;
@@ -178,6 +181,7 @@ exports.len = len;
 exports.map = map;
 exports.max = max;
 exports.memoize = memoize;
+exports.min = min;
 exports.multiply = multiply;
 exports.negate = negate;
 exports.not = not;
