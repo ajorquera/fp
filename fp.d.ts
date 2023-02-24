@@ -32,8 +32,7 @@ declare const keys: {
     (o: {}): string[];
 };
 declare const binaryOp: (operator: any) => Function;
-declare const identity: (arg: any) => () => any;
-declare const arg: (arg: any) => any;
+declare const identity: (arg: any) => any;
 declare const ifElse: (...args: any[]) => any;
 declare const pickRandom: (...args: any[]) => any;
 declare const map: (...args: any[]) => any;
@@ -80,6 +79,8 @@ declare const toAbs: (x: any, abs?: (x: number) => number) => number;
 declare const isInfinity: (arg: any) => any;
 declare const isNumber: (arg: any) => any;
 declare const instanceOf: (...args: any[]) => any;
+declare const gt: (...args: any[]) => any;
+declare const lt: (...args: any[]) => any;
 declare const isDate: (arg: any) => any;
 declare const spread: (fn: any) => (args: any) => any;
 declare const max: any;
@@ -96,4 +97,4 @@ declare const toLocaleStringNumb: (...args: any[]) => any;
 declare const toLocaleCurrency: (...args: any[]) => any;
 declare const len: (obj: any) => any;
 
-export { acc, always, arg, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, isString, keys, len, map, max, memoize, min, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };
+export { acc, always, args, avg, binaryOp, cloneSpread, cloneStringify, compose, createLogger, curry, curryE, curryN, curryNE, demethodize, divide, entries, equal, every, filter, find, flat, flip, getProp, gt, identity, ifElse, ifNotFuncThrowError, instanceOf, isArray, isBoolean, isDate, isFunction, isInfinity, isNaN, isNumber, isObject, isString, keys, len, lt, map, max, memoize, min, multiply, negate, not, pickRandom, pipe, reduce, removeProp, setProp, some, spread, stringTemplate, substract, sum, tap, throwError, timer, to, toAbs, toBoolean, toDate, toLocaleCurrency, toLocaleStringNumb, toMap, toNumber, toSet, toString, typeOf, uniq, valueOf, values };

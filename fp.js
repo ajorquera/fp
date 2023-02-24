@@ -31,8 +31,7 @@ const values = Object.values;
 const entries = Object.entries;
 const keys = Object.keys;
 const binaryOp = (operator) => new Function("a", "b", `return a ${operator} b`);
-const identity = (arg2) => () => arg2;
-const arg = (arg2) => arg2;
+const identity = (arg) => arg;
 const ifElse = curry(
   (condition, ifFn, elseFn) => (...args2) => condition(...args2) ? ifFn(...args2) : elseFn(...args2)
 );
@@ -46,12 +45,12 @@ const map = curryN(2, flip(demethodize(Array.prototype.map)));
 const find = curryN(2, flip(demethodize(Array.prototype.find)));
 const filter = curryN(2, flip(demethodize(Array.prototype.filter)));
 const reduce = curryN(3, flip(demethodize(Array.prototype.reduce)));
-const always = (arg2) => () => arg2;
+const always = (arg) => () => arg;
 const acc = (...args2) => (...args22) => args2.reduce((acc2, fn) => acc2.push(fn(...args22)), []);
 const flat = demethodize(Array.prototype.flat);
-const every = (...fns) => (arg2) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg2));
-const pipe = (...fns) => (arg2) => reduce(arg2, (acc2, fn) => fn(acc2), fns);
-const some = (...fns) => (arg2) => fns.some((fn) => fn(arg2));
+const every = (...fns) => (arg) => demethodize(Array.prototype.every)(fns, (fn) => fn(arg));
+const pipe = (...fns) => (arg) => reduce(arg, (acc2, fn) => fn(acc2), fns);
+const some = (...fns) => (arg) => fns.some((fn) => fn(arg));
 const sum = (...args2) => reduce(0, (a, b) => a + b, Array.isArray(args2[0]) ? args2[0] : args2);
 const avg = (...args2) => sum(...args2) / args2.length;
 const uniq = (arr) => [...new Set(arr)];
@@ -88,9 +87,9 @@ const toString = to(String);
 const toMap = to(Map);
 const toSet = to(Set);
 const toDate = to(Date);
-const tap = curry((fn, arg2) => {
-  fn(arg2);
-  return arg2;
+const tap = curry((fn, arg) => {
+  fn(arg);
+  return arg;
 });
 const isFunction = pipe(typeOf, equal("function"));
 const isArray = Array.isArray;
@@ -102,7 +101,13 @@ const toAbs = (x, abs = Math.abs) => abs(x);
 const isInfinity = pipe(toAbs, equal(Infinity));
 const isNumber = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 const instanceOf = curry((constr, x) => x instanceof constr);
-const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+const gt = curry((a, b) => b > a);
+const lt = curry((a, b) => b < a);
+const FIRST_YEAR = 315324e5;
+const isDate = every(
+  ifElse(isNumber, gt(FIRST_YEAR), always(true)),
+  pipe(ifElse(instanceOf(Date), identity, to(Date)), isNumber)
+);
 const spread = (fn) => (args2) => fn(...args2);
 const max = ifElse(isArray, spread(Math.max), Math.max);
 const min = ifElse(isArray, spread(Math.min), Math.min);
@@ -116,7 +121,7 @@ const stringTemplate = curry((template, obj) => {
 });
 const ifNotFuncThrowError = ifElse(
   not(isFunction),
-  (arg2) => throwError("No function provided. Receive: " + JSON.stringify(arg2))
+  (arg) => throwError("No function provided. Receive: " + JSON.stringify(arg))
 );
 const curryE = ifNotFuncThrowError(curry);
 const curryNE = ifNotFuncThrowError(curryN);
@@ -141,7 +146,6 @@ const len = (obj) => {
 
 exports.acc = acc;
 exports.always = always;
-exports.arg = arg;
 exports.args = args;
 exports.avg = avg;
 exports.binaryOp = binaryOp;
@@ -163,6 +167,7 @@ exports.find = find;
 exports.flat = flat;
 exports.flip = flip;
 exports.getProp = getProp;
+exports.gt = gt;
 exports.identity = identity;
 exports.ifElse = ifElse;
 exports.ifNotFuncThrowError = ifNotFuncThrowError;
@@ -178,6 +183,7 @@ exports.isObject = isObject;
 exports.isString = isString;
 exports.keys = keys;
 exports.len = len;
+exports.lt = lt;
 exports.map = map;
 exports.max = max;
 exports.memoize = memoize;
