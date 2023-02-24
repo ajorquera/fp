@@ -1,5 +1,6 @@
 import { not } from '../index';
 import {
+  always,
   binaryOp,
   compose,
   createLogger,
@@ -92,7 +93,7 @@ test('compose', () => {
   expect(result).toBe(9);
 });
 
-const getTrue = identity(true);
+const getTrue = always(true);
 const getFalse = not(getTrue);
 test('every', () => {
   const allIdentity = every(getTrue, getTrue, getTrue);
@@ -238,7 +239,7 @@ test('toLocaleCurrency', () => {
 test('isInfinity', () => {
   expect(isInfinity('asd4')).toBe(false);
   expect(isInfinity(234)).toBe(false);
-  expect(isInfinity(1/0)).toBe(true);
+  expect(isInfinity(1 / 0)).toBe(true);
   expect(isInfinity(Infinity)).toBe(true);
   expect(isInfinity(-Infinity)).toBe(true);
 });
@@ -249,6 +250,9 @@ test('isDate', () => {
   expect(isDate('')).toBe(false);
   expect(isDate(1)).toBe(false);
   expect(isDate({})).toBe(false);
+  expect(isDate('01-23-2020')).toBe(true);
+  expect(isDate(8121111222212)).toBe(true);
+  expect(isDate(8121111222342342342212)).toBe(false);
 });
 
 test('max', () => {
@@ -285,5 +289,5 @@ test('len', () => {
   expect(len('')).toBe(0);
   expect(len('asd')).toBe(3);
   expect(len([1, 2, 3])).toBe(3);
-  expect(len({'a':1,'b': 2,'c': 3})).toBe(3);
+  expect(len({ a: 1, b: 2, c: 3 })).toBe(3);
 });

@@ -5,8 +5,7 @@ export const entries = Object.entries;
 export const keys = Object.keys;
 
 export const binaryOp = (operator) => new Function('a', 'b', `return a ${operator} b`);
-export const identity = (arg) => () => arg;
-export const arg = (arg) => arg;
+export const identity = (arg) => arg;
 export const ifElse = curry(
   (condition, ifFn, elseFn) =>
     (...args) =>
@@ -73,8 +72,6 @@ export const removeProp = curry((attr, obj) => {
   return rest;
 });
 
-
-
 export const cloneSpread = (obj) => ({ ...obj });
 
 type returnSameTypeFn = <T>(arg: T) => T;
@@ -95,19 +92,23 @@ export const tap = curry((fn, arg) => {
   return arg;
 });
 
-
-
 export const isFunction = pipe(typeOf, equal('function'));
 export const isArray = Array.isArray;
 export const isBoolean = (x) => typeof x === 'boolean';
-export const isString = pipe(typeOf, equal('string'))
+export const isString = pipe(typeOf, equal('string'));
 export const isObject = every(pipe(typeOf, equal('object')), not(isArray));
 export const isNaN = Number.isNaN;
 export const toAbs = (x, abs = Math.abs) => abs(x);
 export const isInfinity = pipe(toAbs, equal(Infinity));
 export const isNumber = every(pipe(toNumber, not(isNaN)), pipe(toAbs, not(isInfinity)));
 export const instanceOf = curry((constr, x) => x instanceof constr);
-export const isDate = every(instanceOf(Date), pipe(toNumber, isNumber));
+export const gt = curry((a, b) => b > a);
+export const lt = curry((a, b) => b < a);
+const FIRST_YEAR = 31532400000;
+export const isDate = every(
+  ifElse(isNumber, gt(FIRST_YEAR), always(true)),
+  pipe(ifElse(instanceOf(Date), identity, to(Date)), isNumber)
+);
 
 export const spread = (fn) => (args) => fn(...args);
 export const max = ifElse(isArray, spread(Math.max), Math.max);
@@ -148,11 +149,11 @@ export const toLocaleCurrency = curry((lang: lang, currency: currency, numb: num
 
 export const len = (obj) => {
   let len;
-  if(isObject(obj)) {
-    len = pipe(values, getProp('length'))(obj)
-  } else if(isArray(obj) || isString(obj)) {
-    len = getProp('length', obj)
+  if (isObject(obj)) {
+    len = pipe(values, getProp('length'))(obj);
+  } else if (isArray(obj) || isString(obj)) {
+    len = getProp('length', obj);
   }
 
   return len;
-}
+};
