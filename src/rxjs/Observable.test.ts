@@ -1,4 +1,5 @@
-import Observable from './Observable';
+import { Observable, Subscription } from '.';
+
 jest.useFakeTimers();
 jest.spyOn(global, 'setTimeout');
 
@@ -7,39 +8,9 @@ afterEach(() => {
 });
 
 const TIMEOUT = 1000;
-test('Observable timeout', () => {
-  const observable = new Observable((observer) => {
-    setInterval(() => {
-      observer.next(1);
-    }, TIMEOUT);
-  });
 
-  expect(setTimeout).toHaveBeenCalledTimes(1);
-  expect(setTimeout).toHaveBeenLastCalledWith(expect.any(Function), TIMEOUT);
-
-  jest.advanceTimersByTime(TIMEOUT);
-  let value;
-
-  const subscription = observable.subscribe((val) => {
-    value = val;
-  });
-
-  jest.advanceTimersByTime(TIMEOUT);
-
-  expect(value).toBe(1);
-
-  jest.advanceTimersByTime(TIMEOUT);
-
-  expect(value).toBe(2);
-
-  subscription.unsubscribe();
-
-  jest.advanceTimersByTime(TIMEOUT);
-
-  expect(value).toBe(2);
-});
-
-test('', () => {
+test('Observable basics', () => {
+  const onNext = jest.fn();
   const observable = new Observable((subscriber) => {
     subscriber.next(1);
     subscriber.next(2);
@@ -47,23 +18,73 @@ test('', () => {
 
     setTimeout(() => {
       subscriber.next(4);
-      subscriber.complete();
       subscriber.next(5);
-    }, 1000);
+    }, TIMEOUT);
   });
 
-  let value;
-  observable.subscribe((val) => {
-    value = val;
+  const observer = {
+    onNext,
+  };
+
+  observable.subscribe(observer);
+
+  expect(onNext).not.toHaveBeenCalled();
+
+  jest.runAllTimers();
+
+  expect(onNext).toHaveBeenCalledTimes(2);
+  expect(onNext).toHaveBeenNthCalledWith(1, 4);
+  expect(onNext).toHaveBeenNthCalledWith(2, 5);
+});
+
+test('Observable unsubscribe', () => {
+  const onNext = jest.fn();
+  let counter = 0;
+  const observable = new Observable((subscriber) => {
+    setInterval(() => {
+      subscriber.next(counter++);
+    }, TIMEOUT);
   });
 
-  expect(value).toBe(3);
+  const observer = {
+    onNext,
+  };
+
+  const subscription = observable.subscribe(observer);
+
+  expect(onNext).not.toHaveBeenCalled();
 
   jest.advanceTimersByTime(TIMEOUT);
 
-  expect(value).toBe(4);
+  expect(onNext).toHaveBeenNthCalledWith(1, 0);
 
   jest.advanceTimersByTime(TIMEOUT);
 
-  expect(value).toBe(4);
+  expect(onNext).toHaveBeenNthCalledWith(2, 1);
+
+  subscription.unsubscribe();
+
+  jest.advanceTimersByTime(TIMEOUT * 4);
+
+  expect(onNext).toHaveBeenCalledTimes(2);
+});
+
+test('Subscription basics', () => {
+  const unsubscribe = jest.fn();
+  const subscription = new Subscription(unsubscribe);
+
+  subscription.unsubscribe();
+  expect(unsubscribe).toHaveBeenCalled();
+});
+
+test('Subscription add', () => {
+  const unsubscribe1 = jest.fn();
+  const unsubscribe2 = jest.fn();
+  const subscription = new Subscription(unsubscribe1);
+
+  subscription.add(new Subscription(unsubscribe2));
+
+  subscription.unsubscribe();
+  expect(unsubscribe1).toHaveBeenCalled();
+  expect(unsubscribe2).toHaveBeenCalled();
 });
